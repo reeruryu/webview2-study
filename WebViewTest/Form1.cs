@@ -40,5 +40,10 @@ namespace WebViewTest
             // 확인을 위해 메시지 박스를 표시
             MessageBox.Show("Message sent to WebView!");
         }
+
+        /*private async void button1_Click(object sender, EventArgs e)
+        {
+            await webView21.CoreWebView2.ExecuteScriptAsync("WebSocketRequest_GetReturn()");
+        }*/
     }
 }
