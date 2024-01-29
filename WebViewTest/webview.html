@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebView2 Example</title>
+</head>
+<body>
+<h3>Hello from WebView2!</h3>
+
+    <input type="text" id="userInput" placeholder="Type your message">
+    <button onclick="sendMessage()">Send Message to App</button><hr>
+    received Message: <div id="receivedMessage"></div>
+
+    <script>
+        function sendMessage() {
+            // JavaScript로 애플리케이션에 메시지 보내기
+            /*console.log('sendMessage');
+            window.chrome.webview.postMessage("Hello from WebView2!");*/
+
+            // 입력된 텍스트 가져오기
+            var userInput = document.getElementById('userInput').value;
+
+            // 입력된 텍스트를 메시지로 전송
+            window.chrome.webview.postMessage(userInput);
+
+            // 입력 필드 비우기
+            document.getElementById('userInput').value = '';
+        }
+
+        // 애플리케이션에서의 메시지 수신
+        window.chrome.webview.addEventListener('message', event => {
+            // 메시지 수신 시 처리
+            // alert('Message received: ' + event.data);
+            var receivedMessageElement = document.getElementById('receivedMessage');
+            receivedMessageElement.innerHTML = event.data;
+        });
+    </script>
+</body>
+</html>
