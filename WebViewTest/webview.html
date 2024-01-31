@@ -8,17 +8,19 @@
 </head>
 <body>
 <h3>Hello from WebView2!</h3>
-
+    <hr><br>
     <input type="text" id="userInput" placeholder="Type your message">
-    <button onclick="sendMessage()">Send Message to App</button><hr>
+    <button onclick="sendMessage()">form으로 전송</button><br>
+
+    <button onclick="returnMessage()">form으로 보낸 거 프로퍼티로 가져오기</button>
+    <button onclick="returnMessage2()">form으로 보낸 거 메서드로 가져오기</button>
+    <div id="returnMessage">&nbsp;</div>
+    <br><hr><br>
+
     received Message: <div id="receivedMessage"></div>
 
     <script>
         function sendMessage() {
-            // JavaScript로 애플리케이션에 메시지 보내기
-            /*console.log('sendMessage');
-            window.chrome.webview.postMessage("Hello from WebView2!");*/
-
             // 입력된 텍스트 가져오기
             var userInput = document.getElementById('userInput').value;
 
@@ -29,13 +31,24 @@
             document.getElementById('userInput').value = '';
         }
 
+        async function returnMessage() {
+            const bridge = window.chrome.webview.hostObjects.bridge;
+            var receivedMessageElement = document.getElementById('returnMessage');
+            receivedMessageElement.innerHTML = await bridge.Message;
+        }
+
+        async function returnMessage2() {
+            const bridge = window.chrome.webview.hostObjects.bridge;
+            var receivedMessageElement = document.getElementById('returnMessage');
+            receivedMessageElement.innerHTML = await bridge.ReturnMessage();
+        }
+
         // 애플리케이션에서의 메시지 수신
         window.chrome.webview.addEventListener('message', event => {
-            // 메시지 수신 시 처리
-            // alert('Message received: ' + event.data);
             var receivedMessageElement = document.getElementById('receivedMessage');
             receivedMessageElement.innerHTML = event.data;
         });
     </script>
+
 </body>
 </html>
